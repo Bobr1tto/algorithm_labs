@@ -1,4 +1,4 @@
-#1. Реализация
+1. Реализация
 ```python
 def Value_in_arr(arr, search_value):
     for x in arr:
@@ -7,19 +7,19 @@ def Value_in_arr(arr, search_value):
     return False
 ```
 
-#2. Функция измерения времени
+2. Функция измерения времени
 ```python
 from time import perf_counter
 
 
 def measure_time(func, *data):
-    start = time.perf_counter()
+    start = perf_counter()
     func(*data)
-    end = time.perf_counter()
+    end = perf_counter()
     return end - start
 ```
 
-#3. Функция генерации данных
+3. Функция генерации данных
 ```python 
 from random import randint
 
@@ -31,7 +31,7 @@ def generate_array(n):
     return arr
 ```
 
-#4 реализация
+4. реализация
 ```python
 from time import perf_counter
 from random import randint
@@ -66,7 +66,7 @@ if __name__ == "__main__":
         print(n, t)
 ```
 
-| Размер массива (n) | Время выполнения (сек) |
+|         n          |            t           |
 |--------------------|------------------------|
 | 100                | 0.0000054              |
 | 1000               | 0.0000308              |
