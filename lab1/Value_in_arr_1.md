@@ -31,7 +31,7 @@ def generate_array(n):
     return arr
 ```
 
-4. реализация
+4. Эксперимент
 ```python
 from time import perf_counter
 from random import randint
