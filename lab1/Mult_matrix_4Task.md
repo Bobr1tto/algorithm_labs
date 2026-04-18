@@ -16,6 +16,7 @@ def multiplication_matrix(n):
 ```python
 from time import perf_counter
 
+
 def measure_time(func, data):
     start = perf_counter()
     func(data)
