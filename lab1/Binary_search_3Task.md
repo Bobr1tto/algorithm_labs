@@ -19,6 +19,7 @@ def Binary_search(arr, search_value):
 ```python
 from time import perf_counter
 
+
 def measure_time(func, *data):
     start = perf_counter()
     func(*data)
@@ -28,6 +29,9 @@ def measure_time(func, *data):
 
 3. Функция генерации данных
 ```python
+from random import randint
+
+
 def generate_array(n):
     arr = []
     for i in range(n):
