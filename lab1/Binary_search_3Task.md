@@ -1,32 +1,35 @@
 1. Реализация
 ```python
-def second_max(arr):
-    max1 = arr[0]
-    max2 = arr[0]
-    for i in arr:
-        if i > max1:
-            max2 = max1
-            max1 = i
-    return max2
+def Binary_search(arr, search_value):
+    arr.sort()
+
+    right = len(arr) - 1
+    left = 0
+
+    while left <= right:
+        mid = (right + left) // 2
+        if arr[mid] == search_value:
+            return "Target is found"
+        elif arr[mid] < search_value:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return "Target is found"
 ```
 
 2. Функция измерения времени
 ```python
 from time import perf_counter
 
-
-def measure_time(func, data):
+def measure_time(func, *data):
     start = perf_counter()
-    func(data)
+    func(*data)
     end = perf_counter()
     return end - start
 ```
 
 3. Функция генерации данных
-```python 
-from random import randint
-
-
+```python
 def generate_array(n):
     arr = []
     for i in range(n):
@@ -34,47 +37,51 @@ def generate_array(n):
     return arr
 ```
 
-4. Эксперимент
+4. Реализация
 ```python
 from time import perf_counter
 from random import randint
 
 
-def second_max(arr):
-    max1 = arr[0]
-    max2 = arr[0]
-    for i in arr:
-        if i > max1:
-            max2 = max1
-            max1 = i
-    return max2
-
-
 def generate_array(n):
     arr = []
     for i in range(n):
         arr.append(randint(0, 10_000))
     return arr
 
-
-def measure_time(func, data):
+def measure_time(func, *data):
     start = perf_counter()
-    func(data)
+    func(*data)
     end = perf_counter()
     return end - start
 
+def Binary_search(arr, search_value):
+    arr.sort()
+
+    right = len(arr) - 1
+    left = 0
+
+    while left <= right:
+        mid = (right + left) // 2
+        if arr[mid] == search_value:
+            return True
+        elif arr[mid] < search_value:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return False
 
 if __name__ == "__main__":
     sizes = [100, 1000, 5000, 10000]
     for n in sizes:
         arr = generate_array(n)
-        t = measure_time(second_max, arr)
+        t = measure_time(Binary_search, arr, randint(0, 10_000))
         print(n, t)
 ```
-
 |         n          |            t           |
 |--------------------|------------------------|
-| 100                | 0.000036               |
+| 100                | 0,000028               |
 | 1000               | 0.000143               |
 | 5000               | 0.000356               |
 | 10000              | 0.000627               |
+
