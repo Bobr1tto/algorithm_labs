@@ -14,7 +14,11 @@ def Binary_search(arr, search_value):
             left = mid + 1
         else:
             right = mid - 1
+<<<<<<< HEAD
     return "Target is NOT found"
+=======
+    return "Target is found"
+>>>>>>> 0d99db54b28209c48e8af893709b27ea0e112d24
 ```
 
 2. Функция измерения времени
