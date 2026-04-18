@@ -14,11 +14,7 @@ def Binary_search(arr, search_value):
             left = mid + 1
         else:
             right = mid - 1
-<<<<<<< HEAD
     return "Target is NOT found"
-=======
-    return "Target is found"
->>>>>>> 0d99db54b28209c48e8af893709b27ea0e112d24
 ```
 
 2. Функция измерения времени
@@ -68,12 +64,12 @@ def Binary_search(arr, search_value):
     while left <= right:
         mid = (right + left) // 2
         if arr[mid] == search_value:
-            return True
+            return "Target is found"
         elif arr[mid] < search_value:
             left = mid + 1
         else:
             right = mid - 1
-    return False
+    return "Target is NOT found"
 
 if __name__ == "__main__":
     sizes = [100, 1000, 5000, 10000]
