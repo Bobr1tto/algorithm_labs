@@ -1,8 +1,6 @@
 1. Реализация
 ```python
 def Binary_search(arr, search_value):
-    arr.sort()
-
     right = len(arr) - 1
     left = 0
 
@@ -34,6 +32,7 @@ def generate_array(n):
     arr = []
     for i in range(n):
         arr.append(randint(0, 10_000))
+    arr.sort()
     return arr
 ```
 
@@ -47,17 +46,16 @@ def generate_array(n):
     arr = []
     for i in range(n):
         arr.append(randint(0, 10_000))
+    arr.sort()
     return arr
 
-def measure_time(func, *data):
+def measure_time(func, *data):  #плохо работает при слишком бысрых скоростях, погрешность перекрывает
     start = perf_counter()
     func(*data)
     end = perf_counter()
     return end - start
 
 def Binary_search(arr, search_value):
-    arr.sort()
-
     right = len(arr) - 1
     left = 0
 
@@ -80,8 +78,8 @@ if __name__ == "__main__":
 ```
 |         n          |            t           |
 |--------------------|------------------------|
-| 100                | 0,000028               |
-| 1000               | 0.000143               |
-| 5000               | 0.000356               |
-| 10000              | 0.000627               |
+| 100                |  0.0000002             |
+| 1000               |  0.0000002             |
+| 5000               |  0.0000002             |
+| 10000              |  0.0000002             |
 
