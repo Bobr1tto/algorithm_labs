@@ -1,83 +1,75 @@
-OPERATORS = {'+', '-', '*', '/'}
+OPERATORS = set("+-*/")
 
 
-def make_node(value, left=None, right=None):
-    return {'value': value, 'left': left, 'right': right}
+class ExpressionNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
 
+    def is_operator(self):
+        return self.value in OPERATORS
 
-def is_leaf(node):
-    return node['left'] is None and node['right'] is None
+    def is_leaf(self):
+        return self.left is None and self.right is None
 
 
 def build_expression_tree(tokens):
     stack = []
     for token in tokens:
         if token in OPERATORS:
-            right = stack.pop()
-            left = stack.pop()
-            stack.append(make_node(token, left, right))
+            node = ExpressionNode(token)
+            node.right = stack.pop()
+            node.left = stack.pop()
+            stack.append(node)
         else:
-            stack.append(make_node(int(token)))
-    return stack[0]
+            stack.append(ExpressionNode(int(token)))
+    return stack[-1]
 
 
-def evaluate(node):
-    if is_leaf(node):
-        return node['value']
-
-    left_val = evaluate(node['left'])
-    right_val = evaluate(node['right'])
-
-    match node['value']:
-        case '+': return left_val + right_val
-        case '-': return left_val - right_val
-        case '*': return left_val * right_val
-        case '/': return left_val / right_val
+def evaluate(root):
+    if not root.is_operator():
+        return root.value
+    left = evaluate(root.left)
+    right = evaluate(root.right)
+    match root.value:
+        case "+": return left + right
+        case "-": return left - right
+        case "*": return left * right
+        case "/": return left / right
 
 
-def fold_constants(node):
-    if is_leaf(node):
-        return node
-
-    folded_left = fold_constants(node['left'])
-    folded_right = fold_constants(node['right'])
-    new_node = make_node(node['value'], folded_left, folded_right)
-
-    if is_leaf(folded_left) and is_leaf(folded_right):
-        return make_node(evaluate(new_node))
-
-    return new_node
+def constant_folding(root):
+    if not root.is_operator():
+        return root
+    root.left = constant_folding(root.left)
+    root.right = constant_folding(root.right)
+    if root.left.is_leaf() and root.right.is_leaf():
+        result = evaluate(root)
+        return ExpressionNode(int(result) if result == int(result) else result)
+    return root
 
 
-def print_tree(node, prefix='', is_left=True):
+def print_tree(node, prefix="", is_left=True):
     if node is None:
         return
-
-    connector = '├── ' if is_left else '└── '
-    print(prefix + connector + str(node['value']))
-    if not is_leaf(node):
-        print_tree(node['left'], prefix + ('│   ' if is_left else '    '), True)
-        print_tree(node['right'], prefix + ('│   ' if is_left else '    '), False)
+    print(prefix + ("├── " if is_left else "└── ") + str(node.value))
+    indent = prefix + ("│   " if is_left else "    ")
+    print_tree(node.left, indent, True)
+    print_tree(node.right, indent, False)
 
 
-if __name__ == '__main__':
-    expressions = [
-        '2 5 * 3 +',
-        '2 3 + 4 5 * +',
-        '10 2 8 * + 3 -',
-    ]
+def demo(expression):
+    print(f"Постфикс: {expression}")
+    tokens = expression.split()
+    root = build_expression_tree(tokens)
+    print_tree(root, is_left=False)
+    print(f"Результат: {evaluate(root)}")
+    folded = constant_folding(build_expression_tree(tokens))
+    print(f"После folding: {folded.value}\n")
 
-    for expr in expressions:
-        tokens = expr.split()
-        print(f'Выражение: {expr}')
 
-        tree = build_expression_tree(tokens)
-        print('Дерево:')
-        print_tree(tree)
-
-        result = evaluate(tree)
-        print(f'Результат: {result}')
-
-        folded = fold_constants(tree)
-        print(f'После constant folding: {folded["value"]}')
-        print()
+if __name__ == "__main__":
+    demo("2 5 * 3 +")
+    demo("2 3 + 4 5 * +")
+    demo("10 2 8 * + 3 -")
